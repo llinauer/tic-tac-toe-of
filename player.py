@@ -61,12 +61,12 @@ def check_two_in_a_row(board, symbol):
     for i in range(BOARD_ROWS):
         # two in a row of own symbol
         if sum(board[i, :]) == 2*symbol:
-            return get_available_in_row(board, i)[0], symbol
+            return get_available_in_row(board, i)[0]
 
     # check cols
     for j in range(BOARD_COLS):
         if sum(board[:, j]) == 2*symbol:
-            return get_available_in_col(board, j)[0], symbol
+            return get_available_in_col(board, j)[0]
 
     # check diagonals
     if sum([board[i, i] for i in range(BOARD_COLS)]) == 2*symbol:
