@@ -63,30 +63,19 @@ def check_two_in_a_row(board, symbol):
         if sum(board[i, :]) == 2*symbol:
             return get_available_in_row(board, i)[0], symbol
 
-        # two in a row of opponents symbol
-        elif sum(board[i, :]) == -2*symbol:
-            return get_available_in_row(board, i)[0], -symbol
-
     # check cols
     for j in range(BOARD_COLS):
-        if sum(board[:, i]) == 2*symbol:
+        if sum(board[:, j]) == 2*symbol:
             return get_available_in_col(board, j)[0], symbol
-
-        elif sum(board[:, i]) == -2*symbol:
-            return get_available_in_col(board, j)[0], -symbol
 
     # check diagonals
     if sum([board[i, i] for i in range(BOARD_COLS)]) == 2*symbol:
-        return get_available_main_diagonals(board)[0], symbol
-    elif sum([board[i, i] for i in range(BOARD_COLS)]) == -2*symbol:
-        return get_available_main_diagonals(board)[0], -symbol
+        return get_available_main_diagonals(board)[0]
 
     if sum([board[i, BOARD_COLS - i - 1] for i in range(BOARD_COLS)]) == 2*symbol:
-        return get_available_off_main_diagonals(board)[0], symbol
-    elif sum([board[i, BOARD_COLS - i - 1] for i in range(BOARD_COLS)]) == -2*symbol:
-        return get_available_off_main_diagonals(board)[0], -symbol
+        return get_available_off_main_diagonals(board)[0]
 
-    return (None, None), None
+    return None, None
 
 
 class Player:
@@ -107,14 +96,15 @@ class Player:
         # Rules for perfect play: https://en.wikipedia.org/wiki/Tic-tac-toe#Strategy
 
         # Rule 1: If you have two in a row, place the third to win
-        pos, found_symbol = check_two_in_a_row(current_board, symbol)
+        pos = check_two_in_a_row(current_board, symbol)
 
         # check if rule 1 applies
-        if pos[0] is not None and found_symbol == symbol:
+        if pos[0] is not None:
             return pos
 
         # Rule 2: If the opponent has two in a row, block the third to prevent from winning
-        if pos[0] is not None and found_symbol == -symbol:
+        pos = check_two_in_a_row(current_board, -symbol)
+        if pos[0] is not None:
             return pos
 
         # Rule 3 & 4: If you have two in opposing corners cause a fork so that you have two lines of winning
@@ -137,16 +127,21 @@ class Player:
             elif current_board[(2, 2)] == 0:
                 return 2, 2
 
-        # Rule 5: If it is the first move, place in some corner
-        if not np.any(current_board):  # any returns False if all elements are 0
-            return tuple(np.random.choice([0, 2], size=2))
+        # Rule 5: Place in the center if it is free, but not on the first move
+        if current_board[(1, 1)] == 0:
+            if not np.any(current_board):  # any returns False if all elements are 0
+                return tuple(np.random.choice([0, 2], size=2))
+            else:
+                return 1, 1
 
-        # Rule 6: If the opponent is in a corner, play the opposite corner
+        # Rule 6: If the opponent is in a corner, play the opposite corner if possible
         for corner in [(0, 0), (0, 2), (2, 0), (2, 2)]:
             if current_board[corner] == -symbol:
-                # return the opposite corner
-                # if 0 -> 2, if 2 -> 0 (this can be achieved by adding 2 and then modulo 4)
-                return (corner[0] + 2) % 4, (corner[1] + 2) % 4
+                # check if the opposite corner is free, to calculate the opposite corner, do 0 -> 2, if 2 -> 0
+                # this can be achieved by adding 2 and then modulo 4
+                opposite_corner = (corner[0] + 2) % 4, (corner[1] + 2) % 4
+                if current_board[opposite_corner] == 0:
+                    return (corner[0] + 2) % 4, (corner[1] + 2) % 4
 
         # Rule 7: If there is an empty corner, place there
         for corner in [(0, 0), (0, 2), (2, 0), (2, 2)]:
