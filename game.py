@@ -103,6 +103,8 @@ class Game:
         else:
             action = self.player2.choose_action(self.state.board, player_symbol)
 
+        print(f'action: {action}')
+
         # print X or O
         if player_symbol == 1:
             self.game_fields[action[0]][action[1]].config(text=self.player1.name)
