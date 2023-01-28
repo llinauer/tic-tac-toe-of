@@ -122,7 +122,7 @@ class Player:
 
         # first, main diagonal
         # check if the main diagonal corners are the same
-        if current_board[(0, 0)] == current_board[(2, 2)]:
+        if current_board[(0, 0)] == current_board[(2, 2)] != 0:
 
             # check if the off-diagonal corners are free -> if yes, place there
             if current_board[(0, 2)] == 0:
@@ -131,14 +131,14 @@ class Player:
                 return 2, 0
 
         # second, off-diagonal
-        if current_board[(0, 2)] == current_board[(2, 0)]:
+        if current_board[(0, 2)] == current_board[(2, 0)] != 0:
             if current_board[(0, 0)] == 0:
                 return 0, 0
             elif current_board[(2, 2)] == 0:
                 return 2, 2
 
         # Rule 5: If it is the first move, place in some corner
-        if np.sum(current_board) == 0:
+        if not np.any(current_board):  # any returns False if all elements are 0
             return tuple(np.random.choice([0, 2], size=2))
 
         # Rule 6: If the opponent is in a corner, play the opposite corner
