@@ -13,23 +13,12 @@ import numpy as np
 class Player:
     """Player class"""
 
-    def __init__(self, name, epsilon=0.4, vs_human=False):
+    def __init__(self, name, human=False):
         """init method"""
 
         self.name = name
         self.states = []  # states is a list of coordinate tuples (e.g. [(0,0), (0,2), ...]
-        self.states_values = {}
-
-        # RL parameters
-        self.learning_rate = 0.3
-
-        # when playing against a human, deactivate epsilon by setting it to -1
-        if vs_human:
-            self.epsilon = -1
-        else:
-            self.epsilon = epsilon
-        self.decay_gamma = 0.9
-
+        self.human = human
 
     def choose_action(self, positions, current_board, symbol):
         """Choose action for the player based on the available positions (list),
