@@ -28,18 +28,10 @@ class Game:
         self.player2 = Player('O', human=human_side == 'O')
         self.state = State(self.player1, self.player2)
 
-    def player_vs_computer(self):
-        """Gets called on start of the game"""
-
         # init window
         self.game_fields = np.zeros((BOARD_ROWS, BOARD_COLS)).tolist()
         self.window = tkinter.Tk()
         self.window.title("Tic Tac Toe")
-
-        # init player
-        # Human = Player 1
-        # Computer = Player 2
-        self.player2.load_policy()
 
         # initialize Fields
         for i in range(BOARD_ROWS):
@@ -59,7 +51,8 @@ class Game:
                                           fg="black", command=self.window.quit)
         self.exit_button.grid(row=3, column=3)
 
-        # start main loop of the window
+    def play(self):
+        """Gets called on start of the game, starts main loop of the window"""
         self.window.mainloop()
 
     def field_clicked(self, row, col):
