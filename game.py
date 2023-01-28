@@ -98,13 +98,10 @@ class Game:
         """Agent makes a turn"""
 
         player_symbol = self.state.player_symbol
-        available_positions = get_available_positions(self.state.board)
         if player_symbol == 1:
-            action = self.player1.choose_action(available_positions,
-                                                self.state.board, player_symbol)
+            action = self.player1.choose_action(self.state.board, player_symbol)
         else:
-            action = self.player2.choose_action(available_positions,
-                                                self.state.board, player_symbol)
+            action = self.player2.choose_action(self.state.board, player_symbol)
 
         # print X or O
         if player_symbol == 1:
