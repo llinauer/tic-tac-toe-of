@@ -99,8 +99,7 @@ class Player:
         self.states = []  # states is a list of coordinate tuples (e.g. [(0,0), (0,2), ...]
         self.human = human
 
-
-    def choose_action(self, positions, current_board, symbol):
+    def choose_action(self, current_board, symbol):
         """Choose action for the player based on the available positions (list) on the current_board (np.array)
            symbol is either 1 for player 1 or -1 for player 2
            return which action(tuple) should be taken"""
@@ -120,20 +119,22 @@ class Player:
 
         # Rule 3 & 4: If you have two in opposing corners cause a fork so that you have two lines of winning
         # If the opponent can fork, prevent it
+
         # first, main diagonal
-        pos, found_symbol = get_available_main_diagonals(current_board)
-        if pos[0] is not None and pos[0] == pos[1]:
-            if current_board[[0, 2]] == 0:
+        # check if the main diagonal corners are the same
+        if current_board[(0, 0)] == current_board[(2, 2)]:
+
+            # check if the off-diagonal corners are free -> if yes, place there
+            if current_board[(0, 2)] == 0:
                 return 0, 2
-            elif current_board[[2, 0]] == 0:
+            elif current_board[(2, 0)] == 0:
                 return 2, 0
 
         # second, off-diagonal
-        pos, found_symbol = get_available_off_main_diagonals(current_board)
-        if pos[0] is not None and pos[0] == pos[1]:
-            if current_board[[0, 0]] == 0:
+        if current_board[(0, 2)] == current_board[(2, 0)]:
+            if current_board[(0, 0)] == 0:
                 return 0, 0
-            elif current_board[[2, 2]] == 0:
+            elif current_board[(2, 2)] == 0:
                 return 2, 2
 
         # Rule 5: If it is the first move, place in some corner
