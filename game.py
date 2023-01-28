@@ -11,7 +11,7 @@ and computer vs. computer
 import time
 import tkinter
 import numpy as np
-from state import State, get_hash
+from state import State, get_available_positions
 from player import Player
 
 BOARD_ROWS = 3
@@ -26,7 +26,7 @@ class Game:
 
         self.player1 = Player('X', human=human_side == 'X')
         self.player2 = Player('O', human=human_side == 'O')
-        self.state = State(self.player1, self.player2)
+        self.state = State()
 
         # init window
         self.game_fields = np.zeros((BOARD_ROWS, BOARD_COLS)).tolist()
@@ -53,6 +53,10 @@ class Game:
 
     def play(self):
         """Gets called on start of the game, starts main loop of the window"""
+
+        # check if the computer goes first
+        if not self.player1.human:
+            self.computer_turn()
         self.window.mainloop()
 
     def field_clicked(self, row, col):
@@ -64,7 +68,7 @@ class Game:
             return None
 
         # check if the chosen field is still available and if yes, update state
-        if (row, col) not in self.state.get_available_positions():
+        if (row, col) not in get_available_positions(self.state.board):
             return None
 
         # print X or O, depending on whose turn it is
@@ -94,7 +98,7 @@ class Game:
         """Agent makes a turn"""
 
         player_symbol = self.state.player_symbol
-        available_positions = self.state.get_available_positions()
+        available_positions = get_available_positions(self.state.board)
         if player_symbol == 1:
             action = self.player1.choose_action(available_positions,
                                                 self.state.board, player_symbol)

@@ -13,44 +13,66 @@ BOARD_ROWS = 3
 BOARD_COLS = 3
 
 
-def get_hash(board):
-    """Returns hash of current board configuration"""
+def get_available_positions(board):
+    """Return positions in board(np.ndarray) with no X or O in them"""
 
-    return str(board.reshape(BOARD_COLS*BOARD_ROWS))
+    positions = []
+    for i in range(BOARD_ROWS):
+        for j in range(BOARD_COLS):
+            if board[i, j] == 0:
+                positions.append((i, j))
+    return positions
+
+
+def get_available_in_row(board, row):
+    """ Return positions in board(np.ndarray) of row(int) with no X or O in them"""
+    positions = []
+    for j in range(BOARD_COLS):
+        if board[row, j] == 0:
+            positions.append((row, j))
+    return positions
+
+
+def get_available_in_col(board, col):
+    """ Return positions in board(np.ndarray) of col(int) with no X or O in them"""
+    positions = []
+    for i in range(BOARD_ROWS):
+        if board[i, col] == 0:
+            positions.append((i, col))
+    return positions
+
+
+def get_available_main_diagonals(board):
+    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
+
+    positions = []
+    for i in range(BOARD_COLS):
+        if board[i, i] == 0:
+            positions.append((i, i))
+    return positions
+
+
+def get_available_off_main_diagonals(board):
+    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
+
+    positions = []
+    for i in range(BOARD_COLS):
+        if board[i, BOARD_COLS - i - 1] == 0:
+            positions.append((i, i))
+    return positions
 
 
 class State:
     """State class"""
 
-    def __init__(self, p1, p2):
+    def __init__(self):
         """init method"""
 
         self.board = np.zeros((BOARD_ROWS, BOARD_COLS))
-        self.p1 = p1
-        self.p2 = p2
         self.is_end = False
 
-        # init p1 plays first
+        # X (=1) goes first
         self.player_symbol = 1
-
-    def reset(self):
-        """Resets the board"""
-
-        self.board = np.zeros((BOARD_ROWS, BOARD_COLS))
-        self.is_end = False
-
-        # init p1 plays first
-        self.player_symbol = 1
-
-    def get_available_positions(self):
-        """Return positions with no X or O in them"""
-
-        positions = []
-        for i in range(BOARD_ROWS):
-            for j in range(BOARD_COLS):
-                if self.board[i, j] == 0:
-                    positions.append((i, j))
-        return positions
 
     def update_state(self, position):
         """Update the board with position (tuple(i,j))"""
@@ -100,18 +122,3 @@ class State:
             return 2
 
         return None
-
-    def give_reward(self, win_result):
-        """If a player has won, give 1 as a reward.
-           In case of a loss, give -1.
-           In case of draw every player gets 0.1"""
-
-        if win_result == 1:
-            self.p1.feed_reward(1)
-            self.p2.feed_reward(-1)
-        elif win_result == -1:
-            self.p1.feed_reward(-1)
-            self.p2.feed_reward(1)
-        elif win_result == 2:
-            self.p1.feed_reward(0.1)
-            self.p2.feed_reward(0.1)
