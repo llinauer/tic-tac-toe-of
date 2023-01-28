@@ -79,7 +79,7 @@ class State:
             return -1
 
         # check for draw
-        if len(self.get_available_positions()) == 0:
+        if len(get_available_positions(self.board)) == 0:
             self.is_end = True
             return 2
 
