@@ -10,37 +10,79 @@ Chooses its move based on a simple set of rules.
 BOARD_ROWS = 3
 BOARD_COLS = 3
 
-from state import get_available_in_row, get_available_in_col
+
+def get_available_in_row(board, row):
+    """ Return positions in board(np.ndarray) of row(int) with no X or O in them"""
+    positions = []
+    for j in range(BOARD_COLS):
+        if board[row, j] == 0:
+            positions.append((row, j))
+    return positions
+
+
+def get_available_in_col(board, col):
+    """ Return positions in board(np.ndarray) of col(int) with no X or O in them"""
+    positions = []
+    for i in range(BOARD_ROWS):
+        if board[i, col] == 0:
+            positions.append((i, col))
+    return positions
+
+
+def get_available_main_diagonals(board):
+    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
+
+    positions = []
+    for i in range(BOARD_COLS):
+        if board[i, i] == 0:
+            positions.append((i, i))
+    return positions
+
+
+def get_available_off_main_diagonals(board):
+    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
+
+    positions = []
+    for i in range(BOARD_COLS):
+        if board[i, BOARD_COLS - i - 1] == 0:
+            positions.append((i, i))
+    return positions
 
 
 def check_two_in_a_row(board, symbol):
     """ Check if there are two in a row (or column) of symbol(int) in board(np.ndarray)
-        If there are, return the third position that is not occupied as a tuple (row, col)
-        If not, return (None, None)"""
+        If there are, return the third position that is not occupied as a tuple (row, col) together with the symbol
+        If not, return (None, None), None"""
 
     # loop over all rows and cols and check if there are two in a row
     # check rows
     for i in range(BOARD_ROWS):
+        # two in a row of own symbol
         if sum(board[i, :]) == 2*symbol:
-            return get_available_in_row(board, row)
+            return get_available_in_row(board, i)[0], symbol
 
-        elif sum(board[i, :]) == -2:
-            self.is_end = True
-            return -1
+        # two in a row of opponents symbol
+        elif sum(board[i, :]) == -2*symbol:
+            return get_available_in_row(board, i)[0], -symbol
 
     # check cols
-    for i in range(BOARD_COLS):
-        if sum(self.board[:, i]) == 3:
-            self.is_end = True
-            return 1
-        elif sum(self.board[:, i]) == -3:
-            self.is_end = True
-            return -1
+    for j in range(BOARD_COLS):
+        if sum(board[:, i]) == 2*symbol:
+            return get_available_in_col(board, j)[0], symbol
+
+        elif sum(board[:, i]) == -2*symbol:
+            return get_available_in_col(board, j)[0], -symbol
 
     # check diagonals
-    diag_sum1 = sum([self.board[i, i] for i in range(BOARD_COLS)])
-    diag_sum2 = sum([self.board[i, BOARD_COLS - i - 1] for i in range(BOARD_COLS)])
+    if sum([board[i, i] for i in range(BOARD_COLS)]) == 2*symbol:
+        return get_available_main_diagonals(board)[0], symbol
+    elif sum([board[i, i] for i in range(BOARD_COLS)]) == -2*symbol:
+        return get_available_main_diagonals(board)[0], -symbol
 
+    if sum([board[i, BOARD_COLS - i - 1] for i in range(BOARD_COLS)]) == 2*symbol:
+        return get_available_off_main_diagonals(board)[0], symbol
+    elif sum([board[i, BOARD_COLS - i - 1] for i in range(BOARD_COLS)]) == -2*symbol:
+        return get_available_off_main_diagonals(board)[0], -symbol
 
 
 class Player:

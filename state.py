@@ -24,44 +24,6 @@ def get_available_positions(board):
     return positions
 
 
-def get_available_in_row(board, row):
-    """ Return positions in board(np.ndarray) of row(int) with no X or O in them"""
-    positions = []
-    for j in range(BOARD_COLS):
-        if board[row, j] == 0:
-            positions.append((row, j))
-    return positions
-
-
-def get_available_in_col(board, col):
-    """ Return positions in board(np.ndarray) of col(int) with no X or O in them"""
-    positions = []
-    for i in range(BOARD_ROWS):
-        if board[i, col] == 0:
-            positions.append((i, col))
-    return positions
-
-
-def get_available_main_diagonals(board):
-    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
-
-    positions = []
-    for i in range(BOARD_COLS):
-        if board[i, i] == 0:
-            positions.append((i, i))
-    return positions
-
-
-def get_available_off_main_diagonals(board):
-    """ Return diagonal positions in board(np.ndarray) with no X or O in them"""
-
-    positions = []
-    for i in range(BOARD_COLS):
-        if board[i, BOARD_COLS - i - 1] == 0:
-            positions.append((i, i))
-    return positions
-
-
 class State:
     """State class"""
 
