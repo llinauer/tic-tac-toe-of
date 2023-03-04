@@ -79,9 +79,9 @@ good for O to place in the middle and threaten with a win.
     <img src=https://user-images.githubusercontent.com/85884720/222914277-2270d3c5-b282-49be-b6b5-12db200c465e.png width=300>
      &nbsp; &nbsp; 
     <img src=https://user-images.githubusercontent.com/85884720/222914280-aeb3600d-44d5-41ef-ac26-2c502c94a566.png width=300>
+    &nbsp; &nbsp; 
+    <img src=https://user-images.githubusercontent.com/85884720/222914289-7b080f59-67de-49d3-a819-e010cce824a0.png width=300>
 </p>
-  
-<img src=https://user-images.githubusercontent.com/85884720/222914289-7b080f59-67de-49d3-a819-e010cce824a0.png width=300>
 
 ### 5. Center
 
