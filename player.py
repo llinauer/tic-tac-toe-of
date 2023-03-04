@@ -47,7 +47,7 @@ def get_available_off_main_diagonals(board):
     positions = []
     for i in range(BOARD_COLS):
         if board[i, BOARD_COLS - i - 1] == 0:
-            positions.append((i, i))
+            positions.append((i, BOARD_COLS -i - 1))
     return positions
 
 
