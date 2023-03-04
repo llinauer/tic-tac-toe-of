@@ -38,9 +38,10 @@ The first rule of Tic Tac Toe is: you do not ... (jk)
 
 If you have two in a row, complete it to win. Easy enough.
 
-<img src=https://user-images.githubusercontent.com/85884720/222914232-1cc5daaa-a183-4fe3-988c-a7291939e59a.png width=300>
-
-<img src=https://user-images.githubusercontent.com/85884720/222914244-8f9b91ee-e992-4763-a9b1-7f832d870795.png width=300>
+<p float="left">
+  <img src=https://user-images.githubusercontent.com/85884720/222914232-1cc5daaa-a183-4fe3-988c-a7291939e59a.png width=300>
+  <img src=https://user-images.githubusercontent.com/85884720/222914244-8f9b91ee-e992-4763-a9b1-7f832d870795.png width=300>
+</p>
 
 
 ### 2. Block
