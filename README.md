@@ -34,7 +34,51 @@ Let me state the rules for perfect play in Tic Tac Toe explicitly here:
 
 The first rule of Tic Tac Toe is: you do not ... (jk)
 
+### 1. Play to win
+
+If you have two in a row, complete it to win. Easy enough.
+
+### 2. Block
+
+If the opponent has two in a row, block it to avert a loss. Also a no-brainer.
+
+### 3. Fork
+
+Place your symbol, so that you open up two winning lanes.
+In the example here, X plays the lower left corner and now has two rows with
+two symbols. O can only block one of them and will loose the turn after.
+
+### 4. Block a fork
+
+If your opponent can fork, prevent it. In the example here, X can open a fork by placing
+in the lower left corner. O knows this and can block. In this situation, it would be equally
+good for O to place in the middle and threaten with a win.
+
+### 5. Center
+
+If free, place in the center. However, if it is the first round, you can increase your opponents
+chance of loosing, by placing in the corner. So that's probably a good thing to do.
+
+### 6. Opposite corner
+
+When your opponent plays a corner, go for the opposite corner.
+
+### 7. Empty corner
+
+If a corner is empty, place there. 
+
+### 8. Empty side
+
+Play the middle square on any of the four side. This rule really only applies in the last move, when you
+are forced to draw.
 
 
 # Playing
 
+To play, run the tic_tac_toe.py script via:
+
+    python tic_tac_toe.py -s {x, o}
+
+You can choose which side you wann play with the -s argument.
+
+Enjoy.
